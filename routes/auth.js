@@ -3,10 +3,19 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-
+const auth = require('../middleware/auth');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs/dist/bcrypt');
 
+router.get('/', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
 router.post(
   '/',
   [
@@ -49,7 +58,7 @@ router.post(
         },
         (err, token) => {
           if (err) throw err;
-          res.status(201).json(token);
+          res.status(201).json({ token });
         }
       );
     } catch (e) {

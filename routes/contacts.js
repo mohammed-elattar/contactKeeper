@@ -1,9 +1,19 @@
 const express = require('express');
-
 const router = express.Router();
+const auth = require('../middleware/auth');
+const User = require('../models/user');
+const Contact = require('../models/contact');
 
-router.get('/', (req, res) => {
-  res.send('contacts list ');
+router.get('/', auth, async (req, res) => {
+  try {
+    const contacts = await Contact.find({ user: req.user.id }).sort({
+      date: -1,
+    });
+    res.json(contacts);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 router.post('/', (req, res) => {
