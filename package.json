@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "serve": "nodemon server.js"
+    "serve": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "ckientinstall": "npm install --prefix client",
+    "dev": "concurrently \"npm run client\" \"npm run serve\""
   },
   "keywords": [],
   "author": "",
