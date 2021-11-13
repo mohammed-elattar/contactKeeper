@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { faEnvelopeOpen } from '@fortawesome/free-regular-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ContactContext from '../../context/contact/contactContext';
 
-const ContactItem = ({ contact: { name, type, email, phone } }) => {
+const ContactItem = ({ contact }) => {
+  const { id, name, type, email, phone } = contact;
+  const contactContext = useContext(ContactContext);
+  const { deleteContact, setCurrent, clearCurrent } = contactContext;
   const typeClass = type === 'professional' ? 'badge-success' : 'badge-primary';
+
+  const onDelete = (e) => {
+    deleteContact(id);
+    clearCurrent();
+  };
+
   return (
     <div className='card bg-light'>
       <h3 className='text-primary text-left'>
@@ -27,8 +37,15 @@ const ContactItem = ({ contact: { name, type, email, phone } }) => {
         )}
       </ul>
       <p>
-        <button className='btn btn-small btn-dark'>Edit</button>
-        <button className='btn btn-small btn-danger'>Delete</button>
+        <button
+          className='btn btn-small btn-dark'
+          onClick={(e) => setCurrent(contact)}
+        >
+          Edit
+        </button>
+        <button className='btn btn-small btn-danger' onClick={onDelete}>
+          Delete
+        </button>
       </p>
     </div>
   );
