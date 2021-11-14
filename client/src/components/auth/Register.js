@@ -11,6 +11,7 @@ const Register = () => {
     password: '',
     password2: '',
   });
+
   const { setAlert } = useContext(AlertContext);
   const { register, error, clearErrors, isAuthenticated } =
     useContext(authContext);

@@ -13,6 +13,7 @@ import {
 const reducer = (state, action) => {
   switch (action.type) {
     case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
@@ -30,6 +31,7 @@ const reducer = (state, action) => {
         error: null,
       };
     case REGISTER_FAIL:
+    case LOGIN_FAIL:
     case AUTH_ERROR:
       localStorage.removeItem('token');
       return {

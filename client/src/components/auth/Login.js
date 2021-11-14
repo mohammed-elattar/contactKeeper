@@ -1,14 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import AlertContext from '../../context/alert/alertContext';
+import authContext from '../../context/auth/authContext';
 
 const Login = () => {
+  let navigate = useNavigate();
+  const { setAlert } = useContext(AlertContext);
+  const { login, error, clearErrors, isAuthenticated } =
+    useContext(authContext);
+
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+    if (error) {
+      setAlert(error, 'danger');
+      clearErrors();
+    }
+  }, [error]);
+
   const { email, password } = user;
-  const onChange = (e) => setUser({ ...user, [e.target.name]: e.traget.vaue });
+  const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
   const onSubmit = (e) => {
     e.preventDefault();
+    if (email === '' || password === '') {
+      setAlert('All fields are required', 'danger');
+    } else {
+      login({
+        email,
+        password,
+      });
+    }
   };
   return (
     <div className='form-container'>
