@@ -71,7 +71,9 @@ const AuthState = (props) => {
       dispatch({ type: LOGIN_FAIL, payload: error.msg });
     }
   };
-  const logout = () => {};
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+  };
   const clearErrors = () => {
     dispatch({ type: CLEAR_ERRORS });
   };
