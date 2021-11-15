@@ -15,6 +15,7 @@ const Login = () => {
   });
 
   useEffect(() => {
+    console.log('isAuthenticated', isAuthenticated);
     if (isAuthenticated) {
       navigate('/');
     }
@@ -22,7 +23,7 @@ const Login = () => {
       setAlert(error, 'danger');
       clearErrors();
     }
-  }, [error]);
+  }, [error, isAuthenticated]);
 
   const { email, password } = user;
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });

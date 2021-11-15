@@ -5,12 +5,15 @@ import { faIdCard } from '@fortawesome/free-regular-svg-icons';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import authContext from '../../context/auth/authContext';
+import contactContext from '../../context/contact/contactContext';
 
 const Navbar = ({ title, icon }) => {
   const { isAuthenticated, logout, user } = useContext(authContext);
+  const { clearContacts } = useContext(contactContext);
 
   const onLogout = (e) => {
     logout();
+    clearContacts();
   };
   const authLinks = (
     <Fragment>

@@ -6,13 +6,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContactContext from '../../context/contact/contactContext';
 
 const ContactItem = ({ contact }) => {
-  const { id, name, type, email, phone } = contact;
+  const { _id, name, type, email, phone } = contact;
   const contactContext = useContext(ContactContext);
   const { deleteContact, setCurrent, clearCurrent } = contactContext;
   const typeClass = type === 'professional' ? 'badge-success' : 'badge-primary';
 
   const onDelete = (e) => {
-    deleteContact(id);
+    deleteContact(_id);
     clearCurrent();
   };
 
