@@ -7,7 +7,7 @@ const Contacts = () => {
   const { contacts, filtered } = contactContext;
   const renderItems = (contacts) =>
     contacts.map((contact) => (
-      <CSSTransition timeout={1000} key={contact.id} classNames='item'>
+      <CSSTransition timeout={1000} key={contact._id} classNames='item'>
         <ContactItem contact={contact} />
       </CSSTransition>
     ));

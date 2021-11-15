@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import * as uuid from 'uuid';
 import ContactContext from './contactContext';
 import ContactReducer from './contactReducer';
+import axios from 'axios';
 import {
   ADD_CONTACT,
   DELETE_CONTACT,
@@ -10,42 +11,29 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACTS,
   CLEAR_FILTER,
+  CONTACT_ERROR,
 } from '../types';
 
 const ContactState = (props) => {
   const initialState = {
-    contacts: [
-      {
-        id: 1,
-        name: 'Nabila',
-        email: 'nabila@test.com',
-        phone: '1111-1111-1111',
-        type: 'personal',
-      },
-      {
-        id: 2,
-        name: 'Rabab',
-        email: 'rabab@test.com',
-        phone: '2222-1111-1111',
-        type: 'professional',
-      },
-      {
-        id: 3,
-        name: 'Malika',
-        email: 'Malika@test.com',
-        phone: '3333-1111-1111',
-        type: 'personal',
-      },
-    ],
+    contacts: [],
     current: null,
     filtered: null,
   };
   const [state, dispatch] = useReducer(ContactReducer, initialState);
 
-  const addContact = (contact) => {
-    contact.id = uuid.v4();
-
-    dispatch({ type: ADD_CONTACT, payload: contact });
+  const addContact = async (contact) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.post('/api/contacts', contact, config);
+      dispatch({ type: ADD_CONTACT, payload: res.data });
+    } catch (error) {
+      dispatch({ type: CONTACT_ERROR, payload: error.msg });
+    }
   };
 
   const deleteContact = (contactId) => {
@@ -78,6 +66,7 @@ const ContactState = (props) => {
         contacts: state.contacts,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addContact,
         deleteContact,
         updateContact,

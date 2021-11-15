@@ -32,12 +32,10 @@ const AuthState = (props) => {
     };
     try {
       const res = await axios.post('/api/users', formData, config);
-      console.log(res, 'res');
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
 
       loadUser();
     } catch (error) {
-      console.log(error, 'error');
       dispatch({ type: REGISTER_FAIL, payload: error.msg });
     }
   };
