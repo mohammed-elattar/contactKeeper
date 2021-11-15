@@ -8,7 +8,8 @@
     "serve": "nodemon server.js",
     "client": "npm start --prefix client",
     "ckientinstall": "npm install --prefix client",
-    "dev": "concurrently \"npm run client\" \"npm run serve\""
+    "dev": "concurrently \"npm run client\" \"npm run serve\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "keywords": [],
   "author": "",
